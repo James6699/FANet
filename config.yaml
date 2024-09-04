@@ -1,0 +1,38 @@
+train_data: ../FANet-master/Dataset/F-360iSOD/
+train_list: ./data/F-360iSOD.txt
+# train_data: ./Dataset/F-360iSOD/
+# train_list: ./data/F-360iSOD.txt
+# test_data: ./Dataset/dataset/360-SOD-te/
+# test_list: ./data/360-SOD-te.txt
+# test_data: ./Dataset/F-360iSOD/
+# test_list: ./data/F-360iSOD-te.txt
+test_data: ../FANet-master/Dataset/F-360iSOD/
+test_list: ./data/F-360iSOD.txt
+val_list : ./data/vallist.txt
+
+checkpoints : ../FANet-master/checkpoints_tan_test/F-360iSOD
+# checkpoints : ./checkpoints_cube_3060/F-360iSOD
+logs : ./Logs
+result : ../FANet-master/Results/tangent_0904/F360iSOD
+model_name : FANet
+padding_size : 0.05
+blend : max
+testset_name: 360-SOD-te-80
+equi_input_width : 1024
+equi_input_height : 512
+cubemap_width : 128
+num_classes : 1
+batch_size : 2 
+lr : 2.0e-3 
+momentum : 0.9
+power : 0.9
+step_ratio : 0.8
+weight_decay : 0.0005
+epochs : 500
+summary_freq : 1
+test_mode: True
+train_mode: True
+use_gpu: True
+device_id : 0
+processes : 8
+model_id: 40

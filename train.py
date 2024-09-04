@@ -198,7 +198,6 @@ def main():
     train_dataset = SOD360Dataset(config['train_data'], config['train_list'], (config['equi_input_width'], config['equi_input_height']),config['padding_size'])
     train_loader = data.DataLoader(train_dataset, batch_size=config['batch_size'], shuffle=True, num_workers=config['processes'], pin_memory=True)
 
-    # model = FANet(num_classes=config['num_classes'],padding_size=config['padding_size'],blend=config['blend'])
     model = FANet(num_classes=config['num_classes'])
 
     print(torch.cuda.is_available())

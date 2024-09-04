@@ -1,0 +1,1 @@
+F-360iSOD dataset with FANet_80.pth method get 0.0212 mae, 0.7887 max-fmeasure, 0.9029 max-Emeasure, 0.8389 S-measure..

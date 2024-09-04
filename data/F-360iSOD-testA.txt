@@ -1,0 +1,17 @@
+/rgb_testA/008.png /gt_testA/008.png
+/rgb_testA/011.png /gt_testA/011.png
+/rgb_testA/012.png /gt_testA/012.png
+/rgb_testA/016.png /gt_testA/016.png
+/rgb_testA/026.png /gt_testA/026.png
+/rgb_testA/038.png /gt_testA/038.png
+/rgb_testA/039.png /gt_testA/039.png
+/rgb_testA/041.png /gt_testA/041.png
+/rgb_testA/044.png /gt_testA/044.png
+/rgb_testA/046.png /gt_testA/046.png
+/rgb_testA/050.png /gt_testA/050.png
+/rgb_testA/051.png /gt_testA/051.png
+/rgb_testA/055.png /gt_testA/055.png
+/rgb_testA/056.png /gt_testA/056.png
+/rgb_testA/068.png /gt_testA/068.png
+/rgb_testA/076.png /gt_testA/076.png
+/rgb_testA/077.png /gt_testA/077.png
