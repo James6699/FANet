@@ -5,7 +5,7 @@ FANet with icosahedron projection
 创新点：
 1.融合二十面体的投影方式。
 2.多投影特征融合。
-3.xxx
+3.SR
 
 性能对比：
 xxx
