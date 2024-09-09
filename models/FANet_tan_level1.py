@@ -377,53 +377,14 @@ class PFA(nn.Module):
         super(PFA, self).__init__()
         self.c2eprojection = T2EB(inplanes)
 
-        self.feature_selection = nn.Sequential(nn.Conv2d(inplanes * 2, outplanes, kernel_size=3, stride=1, padding=1, bias=False),
-                                               nn.BatchNorm2d(outplanes),
-                                               )
-
-        self.msfusion = MSF(outplanes, outplanes)
-        self.channelattention = CA(outplanes)
-       
-
-        self.spatialattention_v1 = nn.Sequential(nn.Conv2d(outplanes, 1, kernel_size=1, stride=1, bias=False),
-                                              nn.BatchNorm2d(1),
-                                              nn.Softmax(dim=1),
-                                              ) # 这里输出应该是(1,2,h,w)
-        # self.spatialattention = nn.Sequential(nn.Conv2d(outplanes, 2, kernel_size=1, stride=1, bias=False),
-        #                                       nn.BatchNorm2d(2),
-        #                                       nn.Softmax(dim=1),
-        #                                       ) # 这里输出应该是(1,2,h,w)
-        self.Conv1x1 = nn.Sequential(nn.Conv2d(inplanes, outplanes, kernel_size=1, bias=False),
+        self.Conv1x1 = nn.Sequential(nn.Conv2d(inplanes * 2, outplanes, kernel_size=1, bias=False),
                                             nn.BatchNorm2d(outplanes))
-        self.conv1 = nn.Conv2d(outplanes, outplanes, kernel_size=3, stride=1, padding=1)
-        self.bn1 = nn.BatchNorm2d(outplanes)
-        self.conv2 = nn.Conv2d(outplanes, outplanes*2, kernel_size=3, stride=1, padding=1)
 
     def forward(self, x):
-        # proj_feature = self.c2eprojection(x[1])  # cube 2 erp feature
-        # equi_feature = F.interpolate(x[0], size=proj_feature.size()[2:], mode='bilinear', align_corners=True)
-        # msfeature = self.msfusion(self.feature_selection(torch.cat((equi_feature, proj_feature), dim=1)))
-
-        # channelatten =self.channelattention(msfeature) # (1,128,1,1)
-
-        # spa_atten0 = self.spatialattention(msfeature)[:, 0, :, :].unsqueeze(dim=1)
-        # spa_atten1 = self.spatialattention(msfeature)[:, 1, :, :].unsqueeze(dim=1)
-        # fusedfeature = self.msfusion(self.feature_selection(torch.cat((channelatten * equi_feature * spa_atten0,
-        #                                                                channelatten * proj_feature * spa_atten1), dim=1)))
-        # out = self.feature_selection(torch.cat((msfeature, fusedfeature), dim=1))
-        # print(x[1].len)
         proj_feature = self.c2eprojection(x[1])  # cube 2 erp feature
         equi_feature = F.interpolate(x[0], size=proj_feature.size()[2:], mode='bilinear', align_corners=True)
-        channelatten =self.channelattention(equi_feature)
-        spa_atten0 = self.spatialattention_v1(equi_feature)[:, 0, :, :].unsqueeze(dim=1)
-        equi_feature_ = channelatten * equi_feature * spa_atten0
-        equi_feature_ = self.feature_selection(torch.cat((equi_feature_,equi_feature),dim=1))
-        out = self.Conv1x1(self.msfusion(self.feature_selection(torch.cat((equi_feature_, proj_feature), dim=1))))
 
-        out1 = F.relu(self.bn1(self.conv1(out)), inplace=True) #256
-        out2 = self.conv2(out1)
-        # w, b = out2[:, :64, :, :], out2[:, 64:, :, :]
-        out = F.relu(out2[:, :64, :, :] * out1 + out2[:, 64:, :, :], inplace=True)
+        out = self.Conv1x1(torch.cat((equi_feature, proj_feature), dim=1))
         return out
 
 # 特征金字塔
